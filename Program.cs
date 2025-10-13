@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SWAPI_Minimal.Controllers.Adminitracao;
+using SWAPI_Minimal.Controllers.Administracao;
 using SWAPI_Minimal.Infra.DB;
 
 var builder = WebApplication.CreateBuilder(args);

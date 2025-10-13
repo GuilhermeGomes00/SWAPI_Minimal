@@ -2,7 +2,7 @@
 using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Infra.DB;
 
-namespace SWAPI_Minimal.Controllers.Adminitracao;
+namespace SWAPI_Minimal.Controllers.Administracao;
 
 public static class checagem
 {
@@ -16,11 +16,7 @@ public static class checagem
             return Results.Ok(xD);
         });
 
-        loginEndPoint.MapPost("", async (LoginDTO loginDto, DbContexto CTX) =>
-        {
-            // if (loginDto.Email == "EmailTeste@email.com" && loginDto.Senha == "123456") return Results.Ok("login sucesso");
-            // else return Results.NotFound();
-        });
+        
 
         
 
