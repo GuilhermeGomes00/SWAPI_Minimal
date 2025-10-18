@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SWAPI_Minimal.Dominio.DTOs;
-using SWAPI_Minimal.Infra.DB;
-
-namespace SWAPI_Minimal.Controllers.Administracao;
+﻿namespace SWAPI_Minimal.Controllers;
 
 public static class checagem
 {

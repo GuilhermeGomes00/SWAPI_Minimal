@@ -20,4 +20,21 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\Administracao\**" />
+    <Compile Remove="Controllers\checagem.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controllers\Administracao\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Controllers\Administracao\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\Administracao\**" />
+  </ItemGroup>
+
 </Project>
