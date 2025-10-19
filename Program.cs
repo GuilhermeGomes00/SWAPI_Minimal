@@ -26,5 +26,6 @@ app.UseSwaggerUI();
 app.MapGet("/", () => Results.Json(new Home()));
 
 app.Login();
+app.AdminEndPoints();
 
 app.Run();

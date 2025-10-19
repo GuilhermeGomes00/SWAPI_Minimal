@@ -1,4 +1,5 @@
-﻿using SWAPI_Minimal.Dominio.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Dominio.Entidades;
 using SWAPI_Minimal.Dominio.Interfaces;
 using SWAPI_Minimal.Infra.DB;
@@ -15,32 +16,41 @@ public class AdminServicos : IAdministrador
         _ctx = ctx;
     }
     
-    public Administradores? Login(LoginDTO loginDTO)
+    public async Task<Administradores?> LoginAsync(LoginDTO loginDTO)
     {
-        var adm = _ctx.
+        var adm = await _ctx.
             Administradores.
-            FirstOrDefault(a => a.Email == loginDTO.Email && a.Senha == loginDTO.Senha);
+            FirstOrDefaultAsync(a => a.Email == loginDTO.Email && a.Senha == loginDTO.Senha);
         
         return adm;
     }
 
-    public Administradores Create(Administradores admin)
+    public async Task<Administradores> CreateAsync(Administradores admin)
     {
-        throw new NotImplementedException();
+        await _ctx.Administradores.AddAsync(admin);
+        await _ctx.SaveChangesAsync();
+        return admin;
     }
 
-    public Administradores Delete(Administradores admin, LoginDTO loginDTO)
+    public void Delete(Administradores admin)
     {
-        throw new NotImplementedException();
+        _ctx.Administradores.Remove(admin);
+        _ctx.SaveChanges();
     }
 
-    public Administradores? GetId(int id)
+    public async Task<Administradores?> GetIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _ctx.Administradores.Where(a => a.Id == id).FirstOrDefaultAsync();
     }
 
-    public List<Administradores> Listar(int? pagina)
+    public async Task<List<Administradores>> ListarAsync(int? pagina = null)
     {
-        throw new NotImplementedException();
+        var query =  _ctx.Administradores.AsQueryable();
+        
+        int entidadesPorPagina = 10;
+        if (pagina != null)
+            query = query.Skip(((int)pagina - 1) * entidadesPorPagina).Take(entidadesPorPagina);
+        
+        return await query.ToListAsync();
     }
 }

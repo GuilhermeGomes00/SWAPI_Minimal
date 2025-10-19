@@ -20,8 +20,8 @@ public static class LoginEndPoints
         loginGroup.MapPost("", ([FromBody] LoginDTO loginDTO, IAdministrador adminServicos) =>
         {
             
-            var adm = adminServicos.Login(loginDTO);
-            if (adminServicos.Login(loginDTO) != null)
+            var adm = adminServicos.LoginAsync(loginDTO);
+            if (adminServicos.LoginAsync(loginDTO) != null)
             {
                 return Results.Ok("login feito com sucesso");
             }else 

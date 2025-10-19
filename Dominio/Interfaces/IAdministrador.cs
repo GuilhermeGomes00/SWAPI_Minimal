@@ -5,9 +5,9 @@ namespace SWAPI_Minimal.Dominio.Interfaces;
 
 public interface IAdministrador
 {
-    Administradores? Login(LoginDTO loginDTO);
-    Administradores Create(Administradores admin);
-    Administradores Delete(Administradores admin, LoginDTO loginDTO);
-    Administradores? GetId(int id);
-    List<Administradores> Listar(int? pagina);
+    Task<Administradores?> LoginAsync(LoginDTO loginDTO);
+    Task<Administradores> CreateAsync(Administradores admin);
+    void Delete(Administradores admin);
+    Task<Administradores?> GetIdAsync(Guid id);
+    Task<List<Administradores>> ListarAsync(int? pagina = null);
 }
