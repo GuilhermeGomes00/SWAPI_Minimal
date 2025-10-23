@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using SWAPI_Minimal.Controllers;
 using SWAPI_Minimal.Dominio.Interfaces;
 using SWAPI_Minimal.Dominio.ModelViews;

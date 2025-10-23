@@ -7,7 +7,7 @@ public interface IAdministrador
 {
     Task<Administradores?> LoginAsync(LoginDTO loginDTO);
     Task<Administradores> CreateAsync(Administradores admin);
-    void Delete(Administradores admin);
+    Task DeleteAsync(Administradores admin);
     Task<Administradores?> GetIdAsync(Guid id);
     Task<List<Administradores>> ListarAsync(int? pagina = null);
 }

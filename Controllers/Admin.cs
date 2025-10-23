@@ -56,18 +56,26 @@ public static class Admin
         }).WithTags("Admin");
 
 
-        adminGroup.MapGet("/{id}", async ([FromRoute] Guid id, IAdministrador adminServicos, DbContexto ctx) =>
+        adminGroup.MapGet("/{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
         {
-            var adm =  await ctx.Administradores.FindAsync(id);
-            if (adm == null)
-                return Results.NotFound();
-            
+            var admin = await adminServicos.GetIdAsync(id);
+            if (admin == null) return Results.NotFound();
 
             return Results.Ok(new AdminMV(
-                adm.Id,
-                adm.Email,
-                adm.Perfil
+                admin.Id,
+                admin.Email,
+                admin.Perfil
             ));
+
         }).WithTags("Admin");
+
+        adminGroup.MapDelete("/{id}Delete", async ([FromRoute] Guid id, IAdministrador adminServicos, DbContexto ctx) =>
+        {
+            var adminToDelete = await adminServicos.GetIdAsync(id);
+            if (adminToDelete == null) return Results.NotFound();
+            
+            await adminServicos.DeleteAsync(adminToDelete);
+            return Results.NoContent();
+        });
     }
 }

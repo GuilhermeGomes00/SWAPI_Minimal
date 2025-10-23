@@ -32,15 +32,16 @@ public class AdminServicos : IAdministrador
         return admin;
     }
 
-    public void Delete(Administradores admin)
+    public async Task DeleteAsync(Administradores admin)
     {
         _ctx.Administradores.Remove(admin);
-        _ctx.SaveChanges();
+        await  _ctx.SaveChangesAsync();
     }
 
     public async Task<Administradores?> GetIdAsync(Guid id)
     {
         return await _ctx.Administradores.Where(a => a.Id == id).FirstOrDefaultAsync();
+        
     }
 
     public async Task<List<Administradores>> ListarAsync(int? pagina = null)

@@ -26,6 +26,6 @@ public static class LoginEndPoints
                 return Results.Ok("login feito com sucesso");
             }else 
                 return Results.Unauthorized();
-        });
+        }).WithTags("Login");
     }
 }
