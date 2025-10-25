@@ -14,8 +14,7 @@ public class Personagem
     public string Nome { get; set; } = default!;
     
     [Required]
-    [StringLength(150)]
-    public string Altura { get; set; }  = default!;
+    public double Altura { get; set; }  = default!;
     
     [Required]
     [StringLength(150)]

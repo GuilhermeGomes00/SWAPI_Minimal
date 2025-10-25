@@ -11,8 +11,8 @@ using SWAPI_Minimal.Infra.DB;
 namespace SWAPI_Minimal.Migrations
 {
     [DbContext(typeof(DbContexto))]
-    [Migration("20251013012436_CriacaoTabelasSW")]
-    partial class CriacaoTabelasSW
+    [Migration("20251025002634_CorrecaoTipoVar")]
+    partial class CorrecaoTipoVar
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,9 +76,7 @@ namespace SWAPI_Minimal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Ano")
-                        .IsRequired()
-                        .HasMaxLength(150)
+                    b.Property<DateTime>("Ano")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tipo")
@@ -102,10 +100,8 @@ namespace SWAPI_Minimal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Altura")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Altura")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("CorCabelo")
                         .IsRequired()

@@ -1,27 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SWAPI_Minimal.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoTabelasStarWars : Migration
+    public partial class InitialADM : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Administrador",
-                table: "Administrador");
-
-            migrationBuilder.RenameTable(
-                name: "Administrador",
-                newName: "Administradores");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Administradores",
-                table: "Administradores",
-                column: "Id");
+            migrationBuilder.CreateTable(
+                name: "Administradores",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Senha = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Perfil = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Administradores", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Filmes",
@@ -101,6 +103,11 @@ namespace SWAPI_Minimal.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Administradores",
+                columns: new[] { "Id", "Email", "Perfil", "Senha" },
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), "admteste@teste.com", "Adm", "123456" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_PersonagemFilme_PersonagensId",
                 table: "PersonagemFilme",
@@ -116,6 +123,9 @@ namespace SWAPI_Minimal.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Administradores");
+
+            migrationBuilder.DropTable(
                 name: "PersonagemFilme");
 
             migrationBuilder.DropTable(
@@ -126,19 +136,6 @@ namespace SWAPI_Minimal.Migrations
 
             migrationBuilder.DropTable(
                 name: "Planetas");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Administradores",
-                table: "Administradores");
-
-            migrationBuilder.RenameTable(
-                name: "Administradores",
-                newName: "Administrador");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Administrador",
-                table: "Administrador",
-                column: "Id");
         }
     }
 }

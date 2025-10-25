@@ -73,9 +73,7 @@ namespace SWAPI_Minimal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Ano")
-                        .IsRequired()
-                        .HasMaxLength(150)
+                    b.Property<DateTime>("Ano")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tipo")
@@ -99,10 +97,8 @@ namespace SWAPI_Minimal.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Altura")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
+                    b.Property<double>("Altura")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("CorCabelo")
                         .IsRequired()

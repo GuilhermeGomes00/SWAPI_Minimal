@@ -11,8 +11,8 @@ using SWAPI_Minimal.Infra.DB;
 namespace SWAPI_Minimal.Migrations
 {
     [DbContext(typeof(DbContexto))]
-    [Migration("20251013011810_CriacaoTabelasStarWars")]
-    partial class CriacaoTabelasStarWars
+    [Migration("20251025000123_InitialADM")]
+    partial class InitialADM
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

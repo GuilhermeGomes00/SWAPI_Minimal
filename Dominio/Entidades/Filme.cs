@@ -18,7 +18,6 @@ public class Filme
     public string Tipo { get; set; } = default!;
     
     [Required]
-    [StringLength(150)]
-    public string Ano { get; set; } = default!;
+    public DateTime Ano { get; set; } = default!;
     public List<Personagem> Personagens { get; set; } = new();
 }
