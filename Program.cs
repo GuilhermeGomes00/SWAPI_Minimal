@@ -8,6 +8,7 @@ using SWAPI_Minimal.Infra.DB;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAdministrador, AdminServicos>();
+builder.Services.AddScoped<IPlanetas, PlanetasServicos>();
 
 builder.Services.AddDbContext<DbContexto>(options =>
 {
@@ -26,5 +27,6 @@ app.MapGet("/", () => Results.Json(new Home()));
 
 app.Login();
 app.AdminEndPoints();
+app.PlanetasEndpoints();
 
 app.Run();

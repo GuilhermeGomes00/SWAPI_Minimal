@@ -10,7 +10,7 @@ using SWAPI_Minimal.Infra.DB;
 
 namespace SWAPI_Minimal.Controllers;
 
-public static class Admin
+public static class AdminEndpoint
 {
     public static void AdminEndPoints(this WebApplication app)
     {
@@ -56,20 +56,19 @@ public static class Admin
         }).WithTags("Admin");
 
 
-        adminGroup.MapGet("/{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
+        adminGroup.MapGet("/User{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
         {
             var admin = await adminServicos.GetIdAsync(id);
             if (admin == null) return Results.NotFound();
 
-            return Results.Ok(new AdminMV(
-                admin.Id,
+            return Results.Ok(new AdminNoID(
                 admin.Email,
                 admin.Perfil
             ));
 
         }).WithTags("Admin");
 
-        adminGroup.MapDelete("/delete{id}", async ([FromRoute] Guid id, IAdministrador adminServicos, DbContexto ctx) =>
+        adminGroup.MapDelete("/delete{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
         {
             var adminToDelete = await adminServicos.GetIdAsync(id);
             if (adminToDelete == null) return Results.NotFound();
@@ -78,7 +77,7 @@ public static class Admin
             return Results.NoContent();
         }).WithTags("Admin");
 
-        adminGroup.MapGet("/Users", async ([FromQuery] int? pagina, IAdministrador adminServicos) =>
+        adminGroup.MapGet("/", async ([FromQuery] int? pagina, IAdministrador adminServicos) =>
         {
             var adms = new List<AdminMV>();
             var administradores = await adminServicos.ListarAsync(pagina);
