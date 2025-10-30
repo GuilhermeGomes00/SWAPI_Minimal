@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAdministrador, AdminServicos>();
 builder.Services.AddScoped<IPlanetas, PlanetasServicos>();
+builder.Services.AddScoped<IFilmes, FilmesServicos>();
 
 builder.Services.AddDbContext<DbContexto>(options =>
 {
@@ -28,5 +29,6 @@ app.MapGet("/", () => Results.Json(new Home()));
 app.Login();
 app.AdminEndPoints();
 app.PlanetasEndpoints();
+app.FilmesEndpoints();
 
 app.Run();

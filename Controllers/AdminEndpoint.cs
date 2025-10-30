@@ -61,7 +61,7 @@ public static class AdminEndpoint
             var admin = await adminServicos.GetIdAsync(id);
             if (admin == null) return Results.NotFound();
 
-            return Results.Ok(new AdminNoID(
+            return Results.Ok(new AdminNoIdMV(
                 admin.Email,
                 admin.Perfil
             ));
