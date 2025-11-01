@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IAdministrador, AdminServicos>();
 builder.Services.AddScoped<IPlanetas, PlanetasServicos>();
 builder.Services.AddScoped<IFilmes, FilmesServicos>();
+builder.Services.AddScoped<IPersonagem, PersonagensServico>();
 
 builder.Services.AddDbContext<DbContexto>(options =>
 {
@@ -30,5 +31,6 @@ app.Login();
 app.AdminEndPoints();
 app.PlanetasEndpoints();
 app.FilmesEndpoints();
+app.PersonagensEndpoints();
 
 app.Run();
