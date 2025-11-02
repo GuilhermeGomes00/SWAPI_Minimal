@@ -1,4 +1,5 @@
-﻿using SWAPI_Minimal.Dominio.Entidades;
+﻿using Microsoft.EntityFrameworkCore;
+using SWAPI_Minimal.Dominio.Entidades;
 using SWAPI_Minimal.Dominio.Interfaces;
 using SWAPI_Minimal.Infra.DB;
 
@@ -15,17 +16,31 @@ public class PersonagensServico : IPersonagem
     
     public async Task<Personagem?> ObterPorIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var personagem = await _ctx.Personagens.Where(p => p.Id == id).Include(p => p.Filmes).FirstOrDefaultAsync();
+        return  personagem;
     }
 
     public async Task<Personagem?> ObterPorNome(string nome)
     {
-        throw new NotImplementedException();
+        var personagem = await _ctx.Personagens.Where(p => p.Nome == nome).Include(p => p.Filmes).FirstOrDefaultAsync();
+        return  personagem;
     }
 
-    public async Task<Personagem?> ObterListaAsync(int? pagina = null)
+    // CORRETO
+    public async Task<List<Personagem>> ObterListaAsync(int? pagina = null)
     {
-        throw new NotImplementedException();
+        var query = _ctx.Personagens
+            .Include(p => p.Filmes)   
+            .Include(p => p.Planeta)  
+            .AsQueryable();
+    
+        int entidadesPorPagina = 10;
+        if (pagina != null)
+        {
+            query = query.OrderBy(p => p.Id); 
+            query = query.Skip(((int)pagina - 1) * entidadesPorPagina).Take(entidadesPorPagina);
+        }
+        return await query.ToListAsync();
     }
 
     public async Task<Personagem?> CriarAsync(Personagem personagem)
@@ -35,13 +50,15 @@ public class PersonagensServico : IPersonagem
         return personagem;
     }
 
-    public async Task<Personagem?> AttAsync(int id, Personagem personagem)
+    public async Task AttAsync(Personagem personagem)
     {
-        throw new NotImplementedException();
+        _ctx.Personagens.Update(personagem);
+        await _ctx.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(Personagem personagem)
     {
-        throw new NotImplementedException();
+        _ctx.Personagens.Remove(personagem);
+        await _ctx.SaveChangesAsync();
     }
 }

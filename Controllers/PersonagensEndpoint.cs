@@ -10,8 +10,22 @@ namespace SWAPI_Minimal.Controllers;
 
 public static class PersonagensEndpoint
 {
+    private static ErroValidacao ValidaDTOPersonagem(PersonagemDTO personagemDTO)
+    {
+        var erroValidacao = new  ErroValidacao {Erros = new List<string>()};
+            
+        if  (string.IsNullOrEmpty(personagemDTO.Nome))
+            erroValidacao.Erros.Add("O nome não pode ser nulo.");
+        if (personagemDTO.planetaId <= 0)
+            erroValidacao.Erros.Add("O planeta inserido não pode ser menor que 0 (zero)");
+        if (personagemDTO.Altura == 0 || double.IsNegative(personagemDTO.Altura))
+            erroValidacao.Erros.Add("A altura não pode ser menor ou igual que 0 (zero)");
+            
+        return erroValidacao;
+    }
     public static void PersonagensEndpoints(this WebApplication app)
     {
+        
         var personagemGroup = app.MapGroup("personagens");
 
         personagemGroup.MapPost("/create", async (
@@ -32,6 +46,8 @@ public static class PersonagensEndpoint
             
             if (string.IsNullOrEmpty(personagemDTO.Nome)) 
                 erroValidacao.Erros.Add("O nome de personagem não pode ser nulo. ");
+            if (double.IsNegative(personagemDTO.Altura) || personagemDTO.Altura == 0)
+                erroValidacao.Erros.Add("A altura não pode ser 0 (zero) ou menor que 0 (zero)");
             if (checkNomePersonagem)
                 erroValidacao.Erros.Add($"O personagem {personagemDTO.Nome} já existe.");
             if (personagemDTO.planetaId <= 0)
@@ -60,7 +76,7 @@ public static class PersonagensEndpoint
             };
             await personagemServicos.CriarAsync(personagem);
             
-            return Results.Created($"/personagens/{personagem.Id}", new PersonagemMV(
+            return Results.Created($"/personagens/{personagem.Id}", new PersonagemNoIdMV(
                 personagemDTO.Nome,
                 personagemDTO.Altura,
                 personagemDTO.corCabelo,
@@ -74,5 +90,131 @@ public static class PersonagensEndpoint
             
 
         }).WithTags("Personagens");
+
+        personagemGroup.MapGet("/{id}", async (
+            [FromRoute] int id, 
+            [FromServices]IPersonagem personagemServicos, 
+            [FromServices]DbContexto ctx) =>
+        {
+            var personagem = await personagemServicos.ObterPorIdAsync(id);
+            if (personagem == null)
+                            return Results.NotFound();
+            
+            // lembrar de usar o select pra pegar os IDs
+            var filmes = personagem.Filmes.Select(filme => filme.Id).ToList(); 
+            
+            
+            
+            return Results.Ok(new PersonagemIdMV(
+                personagem.Id,
+                personagem.Nome,
+                personagem.Altura,
+                personagem.CorCabelo,
+                personagem.CorPele,
+                personagem.CorOlhos,
+                personagem.DataNascimento,
+                personagem.Genero,
+                personagem.PlanetaID,
+                filmes
+                ));
+        }).WithTags("Personagens");
+
+        personagemGroup.MapGet("/Nome{nome}", async(
+            [FromRoute] string nome,
+            [FromServices] IPersonagem personagemServicos,
+            [FromServices] DbContexto ctx) =>
+            {
+                var personagem = await personagemServicos.ObterPorNome(nome);
+                if (personagem == null)
+                    return Results.NotFound();
+                
+                var filmes = personagem.Filmes.Select(filme => filme.Id).ToList(); 
+            
+                return Results.Ok(new PersonagemIdMV(
+                    personagem.Id,
+                    personagem.Nome,
+                    personagem.Altura,
+                    personagem.CorCabelo,
+                    personagem.CorPele,
+                    personagem.CorOlhos,
+                    personagem.DataNascimento,
+                    personagem.Genero,
+                    personagem.PlanetaID,
+                    filmes
+                ));
+            }).WithTags("Personagens");
+        
+        personagemGroup.MapDelete("/delete/{id}", async (
+            [FromRoute] int id, 
+            [FromServices] IPersonagem personagemServicos) =>
+            {
+                var personagem =  await personagemServicos.ObterPorIdAsync(id);
+                if (personagem == null)
+                    return Results.NotFound();
+                
+                await personagemServicos.DeleteAsync(personagem);
+                return Results.NoContent();
+            }).WithTags("Personagens");
+
+        personagemGroup.MapPut("/update/{id}", async (
+            [FromRoute] int id, 
+            [FromBody] PersonagemDTO personagemDTO,
+            [FromServices] IPersonagem personagemServicos, 
+            [FromServices] DbContexto ctx) =>
+            {
+                var erroValidacao = ValidaDTOPersonagem(personagemDTO);
+                var personagem = await personagemServicos.ObterPorIdAsync(id);
+                
+                
+                var filmes = await ctx.Filmes.
+                    Where(f => personagemDTO.filmesId.Contains(f.Id)).
+                    ToListAsync();
+                
+                var checkFilmes = await ctx.Filmes.
+                    CountAsync(f => personagemDTO.filmesId.Contains(f.Id));
+                
+                bool checkPlaneta = await ctx.Planetas
+                    .AnyAsync(p => personagemDTO.planetaId == p.Id);
+
+                if (personagem == null)
+                    return Results.NotFound("Personagem não encontrado");
+                
+                if (!checkPlaneta)
+                    erroValidacao.Erros.Add("O novo planeta não existe.");
+                
+                if (checkFilmes != personagemDTO.filmesId.Count)
+                    erroValidacao.Erros.Add("Um ou mais IDs de filmes são inválidos.");
+                
+                if (erroValidacao.Erros.Count > 0)
+                    return Results.BadRequest(erroValidacao);
+                
+                
+                
+                personagem.Nome = personagemDTO.Nome;
+                personagem.Altura = personagemDTO.Altura;
+                personagem.CorCabelo = personagemDTO.corCabelo;
+                personagem.CorPele = personagemDTO.corPele;
+                personagem.CorOlhos = personagemDTO.corOlhos;
+                personagem.DataNascimento = personagemDTO.dataNascimento;
+                personagem.Genero = personagemDTO.Genero;
+                personagem.PlanetaID = personagemDTO.planetaId;
+                personagem.Filmes = filmes;
+                
+                await personagemServicos.AttAsync(personagem);
+
+                var filmesLista = personagem.Filmes.Select(filme => filme.Id).ToList();
+                return Results.Ok(new PersonagemNoIdMV(
+                    personagem.Nome,
+                    personagem.Altura,
+                    personagem.CorCabelo,
+                    personagem.CorPele,
+                    personagem.CorOlhos,
+                    personagem.DataNascimento,
+                    personagem.Genero,
+                    personagem.PlanetaID,
+                    filmesLista
+                ));
+
+            }).WithTags("Personagens");
     }
 }

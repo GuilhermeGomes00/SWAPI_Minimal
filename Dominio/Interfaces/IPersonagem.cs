@@ -6,9 +6,9 @@ public interface IPersonagem
 {
     Task<Personagem?> ObterPorIdAsync(int id);
     Task<Personagem?> ObterPorNome(string nome);
-    Task<Personagem?> ObterListaAsync(int? pagina = null);
+    Task<List<Personagem>> ObterListaAsync(int? pagina = null);
     Task<Personagem?> CriarAsync(Personagem personagem);
-    Task<Personagem?> AttAsync(int id, Personagem personagem);
-    Task DeleteAsync(int id);
+    Task AttAsync(Personagem personagem);
+    Task DeleteAsync(Personagem personagem);
     
 }
