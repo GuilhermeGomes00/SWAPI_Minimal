@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Dominio.Entidades;
@@ -89,7 +90,7 @@ public static class PersonagensEndpoint
                 )); 
             
 
-        }).WithTags("Personagens");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Personagem");
 
         personagemGroup.MapGet("/{id}", async (
             [FromRoute] int id, 
@@ -117,7 +118,7 @@ public static class PersonagensEndpoint
                 personagem.PlanetaID,
                 filmes
                 ));
-        }).WithTags("Personagens");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Personagem");
 
         personagemGroup.MapGet("/Nome{nome}", async(
             [FromRoute] string nome,
@@ -142,7 +143,7 @@ public static class PersonagensEndpoint
                     personagem.PlanetaID,
                     filmes
                 ));
-            }).WithTags("Personagens");
+            }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Personagem");
         
         personagemGroup.MapDelete("/delete/{id}", async (
             [FromRoute] int id, 
@@ -154,7 +155,7 @@ public static class PersonagensEndpoint
                 
                 await personagemServicos.DeleteAsync(personagem);
                 return Results.NoContent();
-            }).WithTags("Personagens");
+            }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Personagem");
 
         personagemGroup.MapPut("/update/{id}", async (
             [FromRoute] int id, 
@@ -215,6 +216,6 @@ public static class PersonagensEndpoint
                     filmesLista
                 ));
 
-            }).WithTags("Personagens");
+            }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Personagem");
     }
 }

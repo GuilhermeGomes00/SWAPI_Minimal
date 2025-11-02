@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Dominio.Entidades;
@@ -22,7 +23,7 @@ public static class FilmesEndpoint
             if (filmes == null) return Results.NotFound();
 
             return Results.Ok(new FilmesMV(filmes.Id, filmes.Titulo, filmes.Tipo, DateOnly.FromDateTime(filmes.Ano)));
-        }).WithTags("Filme");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Filme");
 
         FilmesGroup.MapGet("/", async ([FromQuery] int pagina, [FromServices] IFilmes filmesServicos) =>
         {
@@ -35,7 +36,7 @@ public static class FilmesEndpoint
             }
             return Results.Ok(filmesLista);
             
-        }).WithTags("Filme");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Filme");
 
         FilmesGroup.MapPost("/create", async ([FromBody] FilmesDTOs filmesDTOs, IFilmes filmesServicos, DbContexto ctx) =>
         {
@@ -71,7 +72,18 @@ public static class FilmesEndpoint
             
             return Results.Created($"/filmes/{filme.Id}", new FilmesDTOs(filme.Id, filme.Titulo, filmesDTOs.Tipo, filmesDTOs.anoLancado));
 
-        }).WithTags("Filme");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Filme");
+
+        FilmesGroup.MapDelete("/delete/{id}", async ([FromRoute] int id, [FromServices] IFilmes filmesServicos) =>
+        {
+            var filme = await filmesServicos.GetIdAsync(id);
+            if (filme == null)
+                return Results.NotFound();
+            
+            await filmesServicos.DeletarAsync(filme);
+            return Results.NoContent();
+            
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Filme");;
 
     }
 }

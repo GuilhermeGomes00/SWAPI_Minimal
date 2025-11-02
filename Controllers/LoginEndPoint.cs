@@ -6,26 +6,51 @@ using Microsoft.IdentityModel.Tokens;
 using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Dominio.Entidades;
 using SWAPI_Minimal.Dominio.Interfaces;
-using SWAPI_Minimal.Dominio.Servicos;
 
 namespace SWAPI_Minimal.Controllers;
 public static class LoginEndPoints
 {
     
-    public static void Login(this WebApplication app)
+    public static void Login(this WebApplication app, string key)
     {
-        
         var loginGroup = app.MapGroup("Login");
-
-        loginGroup.MapPost("", ([FromBody] LoginDTO loginDTO, IAdministrador adminServicos) =>
+        
+        loginGroup.MapPost("", async ([FromBody] LoginDTO loginDTO, [FromServices] IAdministrador adminServicos) =>
         {
+            var adm = await adminServicos.LoginAsync(loginDTO);
             
-            var adm = adminServicos.LoginAsync(loginDTO);
-            if (adminServicos.LoginAsync(loginDTO) != null)
+            if (adm != null) 
             {
-                return Results.Ok("login feito com sucesso");
+                var token = GerarTokenJwt(adm, key);
+                
+                return Results.Ok(new
+                {
+                    Email = adm.Email, 
+                    Perfil = adm.Perfil,
+                    Token = token
+                });
             }else 
                 return Results.Unauthorized();
+                
         }).WithTags("Login");
+    }
+    private static string GerarTokenJwt(Administradores administrador, string key)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new List<Claim>()
+        {
+            new Claim("Email", administrador.Email), 
+            new Claim(ClaimTypes.Role, administrador.Perfil) 
+        };
+        
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddHours(1),
+            signingCredentials: credential
+        );
+        
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

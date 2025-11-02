@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SWAPI_Minimal.Dominio.DTOs;
 using SWAPI_Minimal.Dominio.Entidades;
@@ -26,7 +27,7 @@ public static class PlanetasEndpoint
             }
             return Results.Ok(listaPlanetas);
             
-        }).WithTags("Planetas");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Planeta");
 
         planetasGroup.MapGet("/{id}", async ([FromRoute] int id, IPlanetas planetasServicos) =>
         {
@@ -34,7 +35,7 @@ public static class PlanetasEndpoint
             if  (planeta == null) return Results.NotFound();
             
             return Results.Ok(new PlanetasMV(planeta.Id, planeta.Nome));
-        }).WithTags("Planetas");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Planeta");
 
         planetasGroup.MapPost("/Create", async ([FromBody] PlanetasDTOs planetasDTOs, IPlanetas planetasServicos, DbContexto ctx) =>
         {
@@ -60,7 +61,7 @@ public static class PlanetasEndpoint
                 planeta.Id, planeta.Nome)); 
             
             
-        }).WithTags("Planetas");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Planeta");
 
         planetasGroup.MapDelete("/Delete{id}", async ([FromRoute] int id, IPlanetas planetasServicos) =>
         {
@@ -70,7 +71,7 @@ public static class PlanetasEndpoint
             await planetasServicos.DeletarAsync(planeta);
             return Results.NoContent();
             
-        }).WithTags("Planetas");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Planeta");
 
     }
 }

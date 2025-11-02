@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SWAPI_Minimal.Dominio.DTOs;
@@ -53,7 +54,7 @@ public static class AdminEndpoint
                 adm.Email,
                 adm.Perfil
             ));
-        }).WithTags("Admin");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");;
 
 
         adminGroup.MapGet("/User{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
@@ -66,7 +67,7 @@ public static class AdminEndpoint
                 admin.Perfil
             ));
 
-        }).WithTags("Admin");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Admin");
 
         adminGroup.MapDelete("/delete{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
         {
@@ -75,7 +76,7 @@ public static class AdminEndpoint
             
             await adminServicos.DeleteAsync(adminToDelete);
             return Results.NoContent();
-        }).WithTags("Admin");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");
 
         adminGroup.MapGet("/", async ([FromQuery] int? pagina, IAdministrador adminServicos) =>
         {
@@ -87,6 +88,6 @@ public static class AdminEndpoint
                 adms.Add(new AdminMV(admin.Id, admin.Email, admin.Perfil));
             }
             return Results.Ok(adms);
-        }).WithTags("Admin");
+        }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Admin");
     }
 }
