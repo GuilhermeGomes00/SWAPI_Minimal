@@ -41,7 +41,7 @@ public class DbContexto : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=Administrador.sqlite");
+        optionsBuilder.UseSqlite("Data Source=Swapi.sqlite");
         base.OnConfiguring(optionsBuilder);
     }
 }
