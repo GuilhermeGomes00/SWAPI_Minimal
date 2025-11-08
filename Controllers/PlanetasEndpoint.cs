@@ -23,7 +23,7 @@ public static class PlanetasEndpoint
 
             foreach (var p in planetas)
             {
-                listaPlanetas.Add(new PlanetasMV(p.Id, p.Nome));
+                listaPlanetas.Add(new PlanetasMV(p.Id, p.Nome, p.Clima, p.Terreno));
             }
             return Results.Ok(listaPlanetas);
             
@@ -34,7 +34,7 @@ public static class PlanetasEndpoint
             var planeta = await planetasServicos.GetIdAsync(id);
             if  (planeta == null) return Results.NotFound();
             
-            return Results.Ok(new PlanetasMV(planeta.Id, planeta.Nome));
+            return Results.Ok(new PlanetasMV(planeta.Id, planeta.Nome, planeta.Clima, planeta.Terreno));
         }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm,Viewer" }).WithTags("Planeta");
 
         planetasGroup.MapPost("/Create", async ([FromBody] PlanetasDTOs planetasDTOs, IPlanetas planetasServicos, DbContexto ctx) =>
@@ -44,23 +44,34 @@ public static class PlanetasEndpoint
                 Erros = new List<string>()
             };
 
-            var planetaChecagem = await ctx.Planetas.AnyAsync(p => planetasDTOs.Id == p.Id || planetasDTOs.Nome == p.Nome);
+            var planetaChecagem = await ctx.Planetas.AnyAsync(p => planetasDTOs.Nome == p.Nome);
             if (planetaChecagem) validacao.Erros.Add($"O planeta {planetasDTOs.Nome} já está salvo.");
             
             if(string.IsNullOrEmpty(planetasDTOs.Nome)) 
                 validacao.Erros.Add("Nome do planeta não pode ser vazio");
+            if(string.IsNullOrEmpty(planetasDTOs.Clima))
+                validacao.Erros.Add("Clima não pode ser vazio");
+            if(string.IsNullOrEmpty(planetasDTOs.Terreno))
+                validacao.Erros.Add("O tipo de terreno não pode ser vazio");
             
             if(validacao.Erros.Count > 0)
                 return Results.BadRequest(validacao.Erros);
 
-            var planeta = new Planetas { Nome = planetasDTOs.Nome };
-
+            var planeta = new Planetas
+            {
+                Nome = planetasDTOs.Nome,
+                Clima = planetasDTOs.Clima,
+                Terreno = planetasDTOs.Terreno
+            };
+            
             await planetasServicos.CriarAsync(planeta);
             
-            return Results.Created($"/planetas/{planeta.Id}", new PlanetasDTOs(
-                planeta.Id, planeta.Nome)); 
-            
-            
+            //return Results.Created($"/planetas/{planeta.Id}", new PlanetasDTOs(planeta.Id, planeta.Nome,  planeta.Clima, planeta.Terreno)); 
+            return Results.Created($"/planetas/{planeta.Id}", new PlanetasMV(
+                planeta.Id, planeta.Nome, planeta.Clima, planeta.Terreno
+            ));
+
+
         }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Planeta");
 
         planetasGroup.MapDelete("/Delete{id}", async ([FromRoute] int id, IPlanetas planetasServicos) =>

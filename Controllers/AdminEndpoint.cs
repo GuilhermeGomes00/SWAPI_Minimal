@@ -18,7 +18,7 @@ public static class AdminEndpoint
         var adminGroup = app.MapGroup("Admin");
 
 
-        adminGroup.MapPost("Create", async ([FromBody] AdminDTOs adminDTO, IAdministrador adminServicos, DbContexto ctx) =>
+        adminGroup.MapPost("/Create", async ([FromBody] AdminDTOs adminDTO, IAdministrador adminServicos, DbContexto ctx) =>
         {
             var validacao = new ErroValidacao
             {
@@ -57,7 +57,7 @@ public static class AdminEndpoint
         }).RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");;
 
 
-        adminGroup.MapGet("/User{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
+        adminGroup.MapGet("/{id}", async ([FromRoute] Guid id, IAdministrador adminServicos) =>
         {
             var admin = await adminServicos.GetIdAsync(id);
             if (admin == null) return Results.NotFound();

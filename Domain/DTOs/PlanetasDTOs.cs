@@ -1,3 +1,3 @@
 ﻿namespace SWAPI_Minimal.Dominio.DTOs;
 
-public record PlanetasDTOs(int Id, string Nome);
+public record PlanetasDTOs(string Nome, string Clima, string Terreno);

@@ -18,7 +18,7 @@ builder.Services.AddScoped<IPersonagem, PersonagensServico>();
 
 builder.Services.AddDbContext<DbContexto>(options =>
 {
-    options.UseSqlite("Data Source=Administrador.Sqlite");
+    options.UseSqlite("Data Source=Swapi.Sqlite");
 });
 
 var key = builder.Configuration["Jwt:Key"];

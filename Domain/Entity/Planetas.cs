@@ -12,7 +12,14 @@ public class Planetas
     [Required]
     [StringLength(150)]
     public string Nome { get; set; } = default!;
+
+    [Required]
+    [StringLength(150)]
+    public string Terreno { get; set; } =  default!;
     
+    [Required]
+    [StringLength(150)]
+    public string Clima { get; set; }  = default!;
     
     public List<Personagem> Personagens { get; set; } = new();
 }
