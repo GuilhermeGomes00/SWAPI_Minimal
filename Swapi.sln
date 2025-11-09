@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SWAPI_Minimal", "API\SWAPI_Minimal.csproj", "{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{D82C56D6-B2CD-F611-9E31-04638F7EC30E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|x64.Build.0 = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Debug|x86.Build.0 = Debug|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|x64.ActiveCfg = Release|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|x64.Build.0 = Release|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|x86.ActiveCfg = Release|Any CPU
+		{9AB7A4AE-5AA4-622F-E2F1-D99B09A4BB6B}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F612FE40-8F1F-43EE-81E8-5B5C8328C3DF}
+	EndGlobalSection
+EndGlobal
