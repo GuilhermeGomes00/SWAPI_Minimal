@@ -9,17 +9,14 @@ public class AdministradorTest
     public void TestarGetProp()
     {
         var adm = new Administradores();
-
-        Guid idAdmin = Guid.Parse("11111111-1111-1111-1111-111111111111"); 
         
         adm.Email = "admteste@teste.com";
         adm.Senha = "123456";
-        adm.Senha = "adm";
+        adm.Perfil = "adm";
         
-        Assert.AreEqual(idAdmin, adm.Id);
         Assert.AreEqual("admteste@teste.com", adm.Email);
         Assert.AreEqual("123456", adm.Senha);
-        Assert.AreEqual("adm", adm.Senha);
+        Assert.AreEqual("adm", adm.Perfil);
 
     }
 }

@@ -30,6 +30,73 @@ namespace SWAPI_Minimal.Migrations
                     b.HasIndex("PersonagensId");
 
                     b.ToTable("PersonagemFilme", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            FilmesId = 1,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 2,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 3,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 4,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 5,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 6,
+                            PersonagensId = 1
+                        },
+                        new
+                        {
+                            FilmesId = 4,
+                            PersonagensId = 2
+                        },
+                        new
+                        {
+                            FilmesId = 5,
+                            PersonagensId = 2
+                        },
+                        new
+                        {
+                            FilmesId = 6,
+                            PersonagensId = 2
+                        },
+                        new
+                        {
+                            FilmesId = 1,
+                            PersonagensId = 3
+                        },
+                        new
+                        {
+                            FilmesId = 2,
+                            PersonagensId = 3
+                        },
+                        new
+                        {
+                            FilmesId = 3,
+                            PersonagensId = 3
+                        },
+                        new
+                        {
+                            FilmesId = 6,
+                            PersonagensId = 3
+                        });
                 });
 
             modelBuilder.Entity("SWAPI_Minimal.Dominio.Entidades.Administradores", b =>
@@ -64,6 +131,13 @@ namespace SWAPI_Minimal.Migrations
                             Email = "admteste@teste.com",
                             Perfil = "Adm",
                             Senha = "123456"
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111112"),
+                            Email = "viewerteste@teste.com",
+                            Perfil = "Viewer",
+                            Senha = "123456"
                         });
                 });
 
@@ -89,6 +163,50 @@ namespace SWAPI_Minimal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Filmes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ano = new DateTime(1999, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "A Ameaça Fantasma"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ano = new DateTime(2002, 5, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "O Ataque dos Clones"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ano = new DateTime(2005, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "A Vingança dos Sith"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Ano = new DateTime(1977, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "Uma Nova Esperança"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Ano = new DateTime(1980, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "O Império Contra-Ataca"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Ano = new DateTime(1983, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tipo = "Filme",
+                            Titulo = "O Retorno de Jedi"
+                        });
                 });
 
             modelBuilder.Entity("SWAPI_Minimal.Dominio.Entidades.Personagem", b =>
@@ -138,6 +256,44 @@ namespace SWAPI_Minimal.Migrations
                     b.HasIndex("PlanetaID");
 
                     b.ToTable("Personagens");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Altura = 1.8200000000000001,
+                            CorCabelo = "Castanho",
+                            CorOlhos = "Azul",
+                            CorPele = "Clara",
+                            DataNascimento = "57ABY",
+                            Genero = "Masculino",
+                            Nome = "Obi-Wan Kenobi",
+                            PlanetaID = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Altura = 1.5,
+                            CorCabelo = "Castanho",
+                            CorOlhos = "Castanho",
+                            CorPele = "Clara",
+                            DataNascimento = "19ABY",
+                            Genero = "Feminino",
+                            Nome = "Princesa Leia Organa",
+                            PlanetaID = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Altura = 1.8799999999999999,
+                            CorCabelo = "Castanho",
+                            CorOlhos = "Azul",
+                            CorPele = "Clara",
+                            DataNascimento = "41.9ABY",
+                            Genero = "Masculino",
+                            Nome = "Anakin Skywalker",
+                            PlanetaID = 1
+                        });
                 });
 
             modelBuilder.Entity("SWAPI_Minimal.Dominio.Entidades.Planetas", b =>
@@ -164,6 +320,29 @@ namespace SWAPI_Minimal.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Planetas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Clima = "Árido",
+                            Nome = "Tatooine",
+                            Terreno = "Desértico"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Clima = "Temperado",
+                            Nome = "Stewjon",
+                            Terreno = "Verdejante"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Clima = "Temperado",
+                            Nome = "Alderaan",
+                            Terreno = "Pastagem, cordilheira"
+                        });
                 });
 
             modelBuilder.Entity("FilmePersonagem", b =>
