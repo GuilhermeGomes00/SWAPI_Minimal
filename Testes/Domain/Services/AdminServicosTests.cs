@@ -6,7 +6,7 @@ using SWAPI_Minimal.Infra.DB;
 namespace Testes.Domain.Services;
 
 [TestClass]
-public class AdministradorServico
+public class AdminServicosTests
 {
     private DbContexto _ctx = null!;
     private SqliteConnection _conn = null!;
