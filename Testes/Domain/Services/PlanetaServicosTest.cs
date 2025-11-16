@@ -37,6 +37,7 @@ public class PlanetaServicosTest
             Clima = "Congelado"
         };
         
+        
         await servico.CriarAsync(novoPlaneta);
         
         int contagemPlanetas = await _ctx.Planetas.CountAsync();

@@ -84,3 +84,5 @@ app.FilmesEndpoints();
 app.PersonagensEndpoints();
 
 app.Run();
+
+public partial class Program { }

@@ -46,6 +46,17 @@ public class Personagem
     public List<Filme> Filmes { get; set; } = new();
 
     public Personagem() { }
+    /*public Personagem(string nome, double altura, string corCabelo, string corPele, string corOlhos, string  dataNascimento, string genero, int  planetaID)
+    {
+        Nome = nome;
+        Altura = altura;
+        CorCabelo = corCabelo;
+        CorPele = corPele;
+        CorOlhos = corOlhos;
+        DataNascimento = dataNascimento;
+        Genero = genero;
+        PlanetaID = planetaID;
+    }*/
     
     
 }
