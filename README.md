@@ -10,7 +10,7 @@ O projeto foi estruturado para demonstrar as melhores práticas de desenvolvimen
 
 ---
 
-## ✨ Features (Habilidades Demonstradas)
+## ✨ Features 
 
 * **Arquitetura Limpa:** O código é organizado em `Controllers` (Endpoints), `Domain` (Serviços e Entidades) e `Infra` (Banco de Dados).
 * **Autenticação e Autorização:** Sistema de login seguro usando **JWT (JSON Web Tokens)** com dois níveis de acesso (Roles):
@@ -37,4 +37,4 @@ Para rodar este projeto, você **deve** configurar os segredos locais primeiro.
 ### 2. Clone o Repositório
 
 ```bash
-git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+[git clone [[https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)
