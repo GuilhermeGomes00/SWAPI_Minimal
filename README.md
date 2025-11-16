@@ -38,4 +38,21 @@ Para rodar este projeto, você **deve** configurar os segredos locais primeiro.
 
 ```bash
 git clone [https://github.com/GuilhermeGomes00/SWAPI_Minimal.git](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)
-cd SWAPI_Minimal
+cd SWAPI_Minimal```
+
+## 3. Configure os Segredos (Obrigatório)
+
+Este projeto **não armazena chaves nem strings de conexão** no código-fonte por motivos de segurança.  
+Você deve configurá-los usando o **.NET User Secrets**.
+
+### 3.1. Navegue até a pasta da API
+
+```bash
+cd Swapi/API
+
+### 3.2 Inicialize o User Secrets
+dotnet user-secrets init
+
+### 3.3 Adicione a chave JWT
+dotnet user-secrets set "Jwt:Key" "MINHA_CHAVE_SECRETA_SUPER_LONGA_E_SEGURA_123456"
+
