@@ -2,7 +2,7 @@
 
 ![.NET](https://img.shields.io/badge/.NET-8-blueviolet)
 ![Testes](https://img.shields.io/badge/Testes-MSTest-green)
-![Autenticação](https://img.shields.io/badge/Autentica%C3%A7%C3%A3o-JWT-red)
+![Autenticação](https://img.shields.io/badge/Autentica%C3%A7%C3%A4o-JWT-red)
 
 Este é um projeto de API RESTful completo construído com .NET Minimal APIs, focado em alta qualidade de código, segurança e testabilidade. A API gerencia dados do universo Star Wars, incluindo Personagens, Planetas e Filmes, com um sistema de autenticação robusto baseado em papéis (Roles).
 
@@ -10,7 +10,7 @@ O projeto foi estruturado para demonstrar as melhores práticas de desenvolvimen
 
 ---
 
-## ✨ Features 
+## ✨ Features
 
 * **Arquitetura Limpa:** O código é organizado em `Controllers` (Endpoints), `Domain` (Serviços e Entidades) e `Infra` (Banco de Dados).
 * **Autenticação e Autorização:** Sistema de login seguro usando **JWT (JSON Web Tokens)** com dois níveis de acesso (Roles):
@@ -37,4 +37,5 @@ Para rodar este projeto, você **deve** configurar os segredos locais primeiro.
 ### 2. Clone o Repositório
 
 ```bash
-[git clone [[https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)
+git clone [https://github.com/GuilhermeGomes00/SWAPI_Minimal.git](https://github.com/GuilhermeGomes00/SWAPI_Minimal.git)
+cd SWAPI_Minimal
